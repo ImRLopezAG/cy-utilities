@@ -10,9 +10,8 @@ export default defineConfig({
   dts: true,
   keepNames: true,
   minifySyntax: true,
-  external: ['pg-hstore'],
   splitting: false,
   sourcemap: false,
   minifyIdentifiers: true,
-  skipNodeModulesBundle: true,
+  skipNodeModulesBundle: true
 })

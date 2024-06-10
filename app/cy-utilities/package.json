@@ -2,7 +2,6 @@
   "name": "cy-utilities",
   "version": "0.0.1",
   "description": "Cypress utilities",
-  "module": "lib/index.ts",
   "types": "./lib/index.d.ts",
   "main": "./lib/index.js",
   "exports": {
