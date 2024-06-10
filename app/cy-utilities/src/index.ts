@@ -1,38 +1,17 @@
-export const FEATURES: Record<string, Record<string, string>> = Cypress.env('FEATURES');
 Cypress.Commands.addAll({
   /**
-   * This function will execute a list of functions in a chain and wait for a specific time to make most of the process more stable and natural
-   * @fires YOU MUST BE CAREFUL WITH THE WAIT TIME, IF YOU PUT A BIGGER TIME THAN THE PROCESS NEEDS, THE TEST WILL BE SLOWER AND REMOVE THE MOST  FUNCTION YOU HAVE THE MOST TIME YOU WILL WAIT
-   * @param process
-   * @param wait
-   * @returns
-   */
-  getByFeature: <T extends KeyOf<FEATURES>, K extends KeyOf<FEATURES[T]>>(
-    feature: T,
-    element: K
-  ) => {
-    if (!FEATURES) {
-      throw new Error('The features are not defined in cypress.env.json');
-    }
-    if (!FEATURES[feature]) {
-      throw new Error(`The feature ${feature} does not exist`);
-    }
-    if (!FEATURES[feature][element]) {
-      throw new Error(`The element ${element} does not exist in ${feature}`);
-    }
-    const selector = FEATURES[feature][element];
-    return cy.get(selector);
-  },
-  /**
-   * Get the element by feature and element, the feature must be a key of FEATURES and the element must be a key of the feature
-   * to configure the features go to cypress.env.json
-   * @param feature
-   * @param element
-   * @returns
+   * @description A method to execute a process of steps with a wait time between each step
+   * @param {AwaitableProcess<T>} process - The process of steps to execute
+   * @param {number} wait - The wait time between each step
+   * @returns {Cypress.Chainable<JQuery<HTMLElement>>} - The last element of the process
+   * @throws {Error} - If the process is not an array of functions or the wait is not a number
+   * @fires ⚠️ Use with caution, this method can slow down the test execution the more steps it has and the longer the wait time is will increase the test duration ⚠️
    * @example
-   * cy.getByFeature('HOME', 'ITEMS')
-   * cy.getByFeature('HOME', 'NAVIGATE')
-   * cy.getByFeature('HOME', 'NEXT_ITEMS')
+   * cy.awaitableCluster([
+   * () => cy.get('button').click(),
+   * () => cy.get('input').type('Hello, World!'),
+   * () => cy.get('button').click(),
+   * ], 1000);
    */
   awaitableCluster: <T>(process: AwaitableProcess<T>, wait: number) => {
     if (!process || !Array.isArray(process)) {
@@ -49,12 +28,49 @@ Cypress.Commands.addAll({
   },
 });
 
-
+/**
+ * @description A utility class to create a Page Object Model for Cypress tests
+ * @param {T} elements - An object with the elements of the Page Object Model
+ * @returns {CyPOM<T>} - A Page Object Model instance
+ */
+export class CyPOM<T extends Record<string, string> = {}> {
+  #elements: T;
+  private constructor(elements: T) {
+    this.#elements = elements;
+  }
+  /**
+   * @description A static method to create a Page Object Model instance
+   * @param {T} elements - An object with the elements of the Page Object Model
+   * @returns {CyPOM<T>} - A Page Object Model instance
+   * @throws {Error} - If the elements are not an object
+   * @example
+   * const SitePOM = CyPOM.create({
+   *  LOGIN_BUTTON: 'button[data-testid="login-button"]',
+   *  USERNAME_INPUT: 'input[data-testid="username-input"]',
+   *  PASSWORD_INPUT: 'input[data-testid="password-input"]',
+   *  SUBMIT_BUTTON: 'button[data-testid="submit-button"]',
+   * });
+   * SitePOM.getElement('LOGIN_BUTTON').click();
+   */
+  static create<T extends Record<string, string>>(elements: T): CyPOM<T> {
+    if (!elements) {
+      throw new Error('The elements must be an object');
+    }
+    return new CyPOM(elements);
+  }
+  /**
+   * @description A method to get an element from the Page Object Model
+   * @param {KeyOf<T>} element - The key of the element to get
+   * @returns {Cypress.Chainable<JQuery<HTMLElement>>} - The element
+   * @example
+   * SitePOM.getElement('LOGIN_BUTTON').click();
+   */
+  getElement = (element: KeyOf<T>): Cypress.Chainable<JQuery<HTMLElement>> =>
+    cy.get(this.#elements[element]);
+}
 
 declare global {
   type AwaitableProcess<T> = Array<() => Cypress.Chainer<JQuery<T>>>;
-
-  export type FEATURES = typeof FEATURES;
   type KeyOf<T> = {
     [K in keyof T]: T[K] extends any ? K : never;
   }[keyof T];
@@ -68,35 +84,8 @@ declare global {
           : never;
       }[keyof T]
     : never;
-
-  export type FEATURES_ELEMENTS = KeyOf<FEATURES>;
-  export type FEATURES_ELEMENTS_KEYS<K extends FEATURES_ELEMENTS> = NestedKeys<
-    FEATURES[K]
-  >;
   namespace Cypress {
     interface Chainable {
-      /**
-       * Get the element by feature and element, the feature must be a key of FEATURES and the element must be a key of the feature
-       * to configure the features go to cypress.env.json
-       * @param feature
-       * @param element
-       * @returns
-       * @example
-       * cy.getByFeature('HOME', 'ITEMS')
-       * cy.getByFeature('HOME', 'NAVIGATE')
-       * cy.getByFeature('HOME', 'NEXT_ITEMS')
-       */
-      getByFeature: <K extends FEATURES_ELEMENTS>(
-        feature: K,
-        element: FEATURES_ELEMENTS_KEYS<K>
-      ) => Cypress.Chainable<JQuery<HTMLElement>>;
-      /**
-       * This function will execute a list of functions in a chain and wait for a specific time to make most of the process more stable and natural
-       * @fires YOU MUST BE CAREFUL WITH THE WAIT TIME, IF YOU PUT A BIGGER TIME THAN THE PROCESS NEEDS, THE TEST WILL BE SLOWER AND REMOVE THE MOST  FUNCTION YOU HAVE THE MOST TIME YOU WILL WAIT
-       * @param process
-       * @param wait
-       * @returns
-       */
       awaitableCluster: (
         process: Array<() => Cypress.Chainable<any>>,
         wait: number

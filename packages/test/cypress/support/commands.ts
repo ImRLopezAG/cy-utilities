@@ -1,37 +1,14 @@
-/// <reference types="cypress" />
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+import { CyPOM } from 'cy-utilities';
+
+export const SitePOM = CyPOM.create({
+  NAVIGATE: 'ul.navbar-nav > li.nav-item:nth-child(1) > a.nav-link',
+  ITEMS: 'div#tbodyid > div',
+  ITEM_1:
+    'div#tbodyid > div:nth-child(1) > .card > .card-block > .card-title > .hrefch',
+  ITEM_2:
+    'div#tbodyid > div:nth-child(2) > .card > .card-block > .card-title > .hrefch',
+  ITEM_3:
+    'div#tbodyid > div:nth-child(3) > .card > .card-block > .card-title > .hrefch',
+  NEXT_ITEMS: 'ul.pagination > li > button#next2',
+  PREV_ITEMS: 'ul.pagination > li > button#prev2',
+});
