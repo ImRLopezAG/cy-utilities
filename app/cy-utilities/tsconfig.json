@@ -1,0 +1,12 @@
+{
+  "extends": "@repo/ts-config/base.json",
+  "compilerOptions": {
+    "types": [
+      "cypress",
+      "node"
+    ],
+  },
+  "include": [
+    "src/**/*.ts", "tsup.config.ts"
+  ]
+}

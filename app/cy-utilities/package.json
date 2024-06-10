@@ -1,0 +1,32 @@
+{
+  "name": "cy-utilities",
+  "version": "0.0.1",
+  "description": "Cypress utilities",
+  "module": "lib/index.ts",
+  "types": "lib/index.d.ts",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.js"
+    },
+    "./lib": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.js"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsup",
+    "test": "cypress run"
+  },
+  "dependencies": {
+    "cypress": "^13.*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "@repo/ts-config": "workspace:*",
+    "tsup": "^8.1.0"
+  },
+  "packageManager": "pnpm@9.0.4"
+}

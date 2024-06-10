@@ -1,0 +1,19 @@
+{
+  "name": "@repo/test",
+  "module": "index.ts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "cy:o": "cypress open",
+    "cy:run": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "^13.11.0",
+    "@repo/ts-config": "workspace:*",
+    "cy-utilities": "workspace:*"
+  },
+  "dependencies": {},
+  "packageManager": "pnpm@9.0.4"
+}
+

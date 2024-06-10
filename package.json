@@ -1,0 +1,19 @@
+{
+  "name": "@repo/cy-utilities",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build --filter cy-utilities",
+    "open": "turbo run cy:o --filter @repo/test"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "turbo": "latest",
+    "typescript": "latest",
+    "@repo/ts-config": "workspace:*",
+    "@types/node": "latest"
+  },
+  "packageManager": "pnpm@9.0.4"
+
+}
