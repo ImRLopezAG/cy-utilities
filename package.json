@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "turbo run build --filter cy-utilities",
-    "open": "turbo run cy:o --filter @repo/test"
+    "open": "turbo run cy:o --filter @repo/test",
+    "test": "turbo run test --filter @repo/test"
   },
   "dependencies": {
   },
@@ -14,6 +15,8 @@
     "@repo/ts-config": "workspace:*",
     "@types/node": "latest"
   },
-  "packageManager": "pnpm@9.0.4"
-
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=9"
+  }
 }

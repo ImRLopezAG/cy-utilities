@@ -6,6 +6,9 @@
     },
     "cy:o": {
       "cache": false
+    },
+    "test": {
+      "cache": false
     }
   }
 }

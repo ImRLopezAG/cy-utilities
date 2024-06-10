@@ -13,7 +13,6 @@
     "@repo/ts-config": "workspace:*",
     "cy-utilities": "workspace:*"
   },
-  "dependencies": {},
-  "packageManager": "pnpm@9.0.4"
+  "dependencies": {}
 }
 
