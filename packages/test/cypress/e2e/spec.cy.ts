@@ -1,4 +1,4 @@
-import { SitePOM } from '../support/commands'
+import { SitePOM, } from '../support/commands'
 describe('template spec', () => {
   it('passes', () => {
     cy.visit('https://demoblaze.com')
