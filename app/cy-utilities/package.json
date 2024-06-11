@@ -1,6 +1,6 @@
 {
   "name": "cy-utilities",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "a collection of utilities that can be used to help with testing using Cypress, the tool provides a lot of features out of the box, but sometimes we need to extend it to make it more powerful.",
   "types": "./lib/index.d.ts",
   "main": "./lib/index.js",

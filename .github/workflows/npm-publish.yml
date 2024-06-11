@@ -75,7 +75,7 @@ jobs:
 
       - name: build
         if: ${{ env.skip == 'false' }}
-        run: pnpm build:cy-utilities
+        run: pnpm build
 
       - name: registry
         if: ${{ env.skip == 'false' }}
