@@ -1,6 +1,6 @@
-import { SitePOM } from '../support/commands'
+import { SiteMultiPOM, SitePOM } from '../support/commands'
 describe('template spec', () => {
-  it('passes', () => {
+  it('Should work with Single POM', () => {
     cy.visit('https://demoblaze.com')
     cy.awaitableCluster(
       [
@@ -10,6 +10,39 @@ describe('template spec', () => {
         () => SitePOM.getElement('PREV_ITEMS').click()
       ],
       200
+    )
+  })
+  it('Should work with Nested POM', () => {
+    cy.visit('https://demoblaze.com/cart.html')
+    cy.awaitableCluster(
+      [
+        () => SiteMultiPOM.getElement('CART', 'PLACE_ORDER').click(),
+        () =>
+          SiteMultiPOM.getElement('CART', 'MODAL_ORDER')
+            .should('have.class', 'show')
+            .should('have.css', 'display', 'block'),
+        () =>
+          SiteMultiPOM.getElement('CART', 'TOTAL_MODAL').should(
+            'have.text',
+            'Total: 5070'
+          ),
+        () => SiteMultiPOM.getElement('CART', 'NAME').type('John Doe'),
+        () => SiteMultiPOM.getElement('CART', 'COUNTRY').type('United States'),
+        () => SiteMultiPOM.getElement('CART', 'CITY').type('New York'),
+        () =>
+          SiteMultiPOM.getElement('CART', 'CREDIT_CARD').type(
+            '1234567890123456'
+          ),
+        () => SiteMultiPOM.getElement('CART', 'MONTH').type('12'),
+        () => SiteMultiPOM.getElement('CART', 'YEAR').type('2023'),
+        () => SiteMultiPOM.getElement('CART', 'PURCHASE').click(),
+        () =>
+          SiteMultiPOM.getElement('CART', 'SWEET_ALERT')
+            .should('have.class', 'visible')
+            .should('have.css', 'display', 'block'),
+        () => SiteMultiPOM.getElement('CART', 'SWEET_BUTTON').click()
+      ],
+      300
     )
   })
 })
