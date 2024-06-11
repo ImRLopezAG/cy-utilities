@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "cy:o": "cypress open",
-    "cy:run": "cypress run"
+    "test": "cypress run"
   },
   "devDependencies": {
     "cypress": "^13.11.0",

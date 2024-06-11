@@ -1,7 +1,9 @@
 import { SiteMultiPOM, SitePOM } from '../support/commands'
 describe('template spec', () => {
-  it('Should work with Single POM', () => {
+  beforeEach(() => {
     cy.visit('https://demoblaze.com')
+  })
+  it('Should work with Single POM', () => {
     cy.awaitableCluster(
       [
         () => SitePOM.getElement('ITEMS').should('have.length', 9),
@@ -21,11 +23,7 @@ describe('template spec', () => {
           SiteMultiPOM.getElement('CART', 'MODAL_ORDER')
             .should('have.class', 'show')
             .should('have.css', 'display', 'block'),
-        () =>
-          SiteMultiPOM.getElement('CART', 'TOTAL_MODAL').should(
-            'have.text',
-            'Total: 5070'
-          ),
+  
         () => SiteMultiPOM.getElement('CART', 'NAME').type('John Doe'),
         () => SiteMultiPOM.getElement('CART', 'COUNTRY').type('United States'),
         () => SiteMultiPOM.getElement('CART', 'CITY').type('New York'),

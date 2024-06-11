@@ -182,5 +182,10 @@ cypress/fixtures
 
 # Turbo
 .turbo
-
+# packages
 lib/
+
+# Cypress
+packages/*/cypress/screenshots
+packages/*/cypress/videos
+packages/*/cypress/fixtures
