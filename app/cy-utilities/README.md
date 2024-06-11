@@ -1,6 +1,6 @@
 # Cypress Utilities
 
-This repository contains a collection of utilities that can be used to help with testing using Cypress, the tool provides
+A collection of utilities that can be used to help with testing using Cypress, the tool provides
 a lot of features out of the box, but sometimes we need to extend it to make it more powerful.
 
 ## Installation
