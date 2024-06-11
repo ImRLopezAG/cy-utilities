@@ -41,8 +41,6 @@ describe('template spec', () => {
             .should('have.class', 'visible')
             .should('have.css', 'display', 'block'),
         () => SiteMultiPOM.getElement('CART', 'SWEET_BUTTON').click()
-      ],
-      300
-    )
+      ])
   })
 })

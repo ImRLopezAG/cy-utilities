@@ -2,7 +2,7 @@ export * from './multiPOM'
 export * from './singlePOM'
 
 Cypress.Commands.addAll({
-  awaitableCluster: <T>(process: AwaitableProcess<T>, wait: number) => {
+  awaitableCluster: <T>(process: AwaitableProcess<T>, wait: number = 300) => {
     if (!process || !Array.isArray(process)) {
       throw new Error('The process must be an array of functions')
     }
@@ -19,7 +19,6 @@ Cypress.Commands.addAll({
 
 declare global {
   export type AwaitableProcess<T> = Array<() => Cypress.Chainer<JQuery<T>>>
-  export type Nested = Record<string, Record<string, string>>
   export type KeyOf<T> = {
     [K in keyof T]: T[K] extends any ? K : never
   }[keyof T]
@@ -33,18 +32,12 @@ declare global {
       }[keyof T]
     : never
 
-  export type Keys<T> = T extends Record<string, Record<string, string>>
-    ? {
-        [K in keyof T]: NestedKeys<T[K]>
-      }[keyof T]
-    : never
-
   namespace Cypress {
     interface Chainable {
       /**
        * @description A method to execute a process of steps with a wait time between each step
        * @param {AwaitableProcess<T>} process - The process of steps to execute
-       * @param {number} wait - The wait time between each step iteration in milliseconds
+       * @param {number} wait - The wait time between each step iteration in milliseconds, default is 300
        * @returns {Cypress.Chainable<JQuery<HTMLElement>>} - The last element of the process
        * @throws {Error} - If the process is not an array of functions or the wait is not a number
        * @fires ⚠️ Use with caution, this method can slow down the test execution the more steps it has and the longer the wait time is will increase the test duration ⚠️
@@ -57,7 +50,7 @@ declare global {
        */
       awaitableCluster: (
         process: Array<() => Cypress.Chainable<any>>,
-        wait: number
+        wait?: number
       ) => Cypress.Chainable<JQuery<HTMLElement>>
     }
   }
