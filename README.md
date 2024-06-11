@@ -34,7 +34,7 @@ import 'cy-utilities'
 
 ```javascript
 // cypress/support/(your-file or your-folder)/*.js
-import { SinglePOM } from 'cy-utilities'
+import { SinglePOM, MultiPOM } from 'cy-utilities'
 
 export const SitePOM = SinglePOM.create({
   ITEMS: 'div#tbodyid > div',
@@ -44,11 +44,25 @@ export const SitePOM = SinglePOM.create({
   NEXT_ITEMS: 'ul.pagination > li > button#next2',
   PREV_ITEMS: 'ul.pagination > li > button#prev2'
 })
+
+export const SiteMultiPOM = MultiPOM.create({
+  CART: {
+    ITEMS: 'div#tbodyid > div',
+    PLACE_ORDER: 'button#place-order',
+    SUBTOTAL: 'span#subtotal' 
+  },
+  HOME: {
+    ITEMS: 'div#tbodyid > div',
+    ITEM_1: 'div#tbodyid > div:nth-child(1)',
+    ITEM_2: 'div#tbodyid > div:nth-child(2)',
+  }
+})
+
 ```
 
 ```javascript
 // cypress/e2e/your-test.spec.js
-import { SitePOM } from '../support/(your-file or your-folder)/*.js';
+import { SitePOM, SiteMultiPOM } from '../support/(your-file or your-folder)/*.js';
 
 describe('Test', () => {
   it('should do something', () => {
@@ -71,6 +85,15 @@ describe('Test', () => {
       () => SitePOM.getElement('NEXT_ITEMS').click();
       () => SitePOM.getElement('PREV_ITEMS').click();
     ], 200)
+  });
+  it('should do something with the multi command', () => {
+    cy.visit('https://example.com');
+    SiteMultiPOM.getMultiElement('CART', 'ITEMS').should('have.length', 3);
+    SiteMultiPOM.getMultiElement('CART', 'PLACE_ORDER').click();
+    SiteMultiPOM.getMultiElement('CART', 'SUBTOTAL').should('have.text', '100.00');
+    SiteMultiPOM.getMultiElement('HOME', 'ITEMS').should('have.length', 2);
+    SiteMultiPOM.getMultiElement('HOME', 'ITEM_1').should('have.text', 'Item 1');
+    SiteMultiPOM.getMultiElement('HOME', 'ITEM_2').should('have.text', 'Item 2');
   });
 });
 
