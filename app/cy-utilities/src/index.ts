@@ -57,30 +57,6 @@ export class CyPOM<T extends Record<string, string> = {}> {
   getElement = (element: KeyOf<T>): Cypress.Chainable<JQuery<HTMLElement>> =>
     cy.get(this.#elements[element])
 }
-
-export class CyPOMNested<
-  T extends Record<string, Record<string, string>> = {}
-> {
-  #elements: T
-  private constructor(elements: T) {
-    this.#elements = elements
-  }
-
-  static create<T extends Record<string, Record<string, string>>>(
-    elements: T
-  ): CyPOMNested<T> {
-    if (!elements) {
-      throw new Error('The elements must be an object')
-    }
-    return new CyPOMNested(elements)
-  }
-
-  getElement = (
-    parent: KeyOf<T>,
-    element: NestedKeys<T>
-  ): Cypress.Chainable<JQuery<HTMLElement>> =>
-    cy.get(this.#elements[parent][element])
-}
 declare global {
   export type AwaitableProcess<T> = Array<() => Cypress.Chainer<JQuery<T>>>
   export type KeyOf<T> = {

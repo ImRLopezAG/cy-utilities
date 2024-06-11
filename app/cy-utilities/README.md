@@ -28,6 +28,11 @@ bun add --dev cy-utilities
 To use the utilities, you need to import the functions you want to use in your test files, for example:
 
 ```javascript
+// cypress/support/e2e.js
+import  'cy-utilities'
+```
+
+```javascript
 // cypress/support/(your-file or your-folder)/*.js
 import { CyPOM } from 'cy-utilities';
 
