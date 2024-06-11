@@ -1,3 +1,6 @@
+export * from './multiPOM'
+export * from './singlePOM'
+
 Cypress.Commands.addAll({
   awaitableCluster: <T>(process: AwaitableProcess<T>, wait: number) => {
     if (!process || !Array.isArray(process)) {
@@ -14,57 +17,28 @@ Cypress.Commands.addAll({
   }
 })
 
-/**
- * @description A utility class to create a Page Object Model for Cypress tests
- * @param {T} elements - An object with the elements of the Page Object Model
- * @returns {CyPOM<T>} - A Page Object Model instance
- */
-export class CyPOM<T extends Record<string, string> = {}> {
-  #elements: T
-  private constructor(elements: T) {
-    this.#elements = elements
-  }
-  /**
-   * @description A static method to create a Page Object Model instance
-   * @param {T} elements - An object with the elements of the Page Object Model
-   * @returns {CyPOM<T>} - A Page Object Model instance
-   * @throws {Error} - If the elements are not an object
-   * @example
-   * const SitePOM = CyPOM.create({
-   *  LOGIN_FORM: 'form[data-testid="login-form"]',
-   *  USERNAME_INPUT: 'input[data-testid="username-input"]',
-   *  PASSWORD_INPUT: 'input[data-testid="password-input"]',
-   *  SUBMIT_BUTTON: 'button[data-testid="submit-button"]',
-   * })
-   * SitePOM.getElement('USERNAME_INPUT').type('username')
-   * SitePOM.getElement('PASSWORD_INPUT').type('password')
-   * SitePOM.getElement('SUBMIT_BUTTON').click()
-   * SitePOM.getElement('LOGIN_FORM').should('not.exist')
-   */
-  static create<T extends Record<string, string>>(elements: T): CyPOM<T> {
-    if (!elements) {
-      throw new Error('The elements must be an object')
-    }
-    return new CyPOM(elements)
-  }
-  /**
-   * @description A method to get an element from the Page Object Model
-   * @param {KeyOf<T>} element - The key of the element to get
-   * @returns {Cypress.Chainable<JQuery<HTMLElement>>} - The element
-   * @example
-   * SitePOM.getElement('LOGIN_BUTTON').click()
-   */
-  getElement = (element: KeyOf<T>): Cypress.Chainable<JQuery<HTMLElement>> =>
-    cy.get(this.#elements[element])
-}
 declare global {
   export type AwaitableProcess<T> = Array<() => Cypress.Chainer<JQuery<T>>>
+  export type Nested = Record<string, Record<string, string>>
   export type KeyOf<T> = {
     [K in keyof T]: T[K] extends any ? K : never
   }[keyof T]
-  export type NestedKeys<T extends Record<string, Record<string, any>>> = KeyOf<
-    T[KeyOf<T>]
-  >
+  export type NestedKeys<T> = T extends object
+    ? {
+        [K in keyof T]: K extends string
+          ? T[K] extends string
+            ? K
+            : NestedKeys<T[K]>
+          : never
+      }[keyof T]
+    : never
+
+  export type Keys<T> = T extends Record<string, Record<string, string>>
+    ? {
+        [K in keyof T]: NestedKeys<T[K]>
+      }[keyof T]
+    : never
+
   namespace Cypress {
     interface Chainable {
       /**
