@@ -7,8 +7,6 @@
     "cy:o": {
       "cache": false
     },
-    "test": {
-      
-    }
+    "test": { }
   }
 }

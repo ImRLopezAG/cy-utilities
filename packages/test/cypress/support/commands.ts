@@ -1,4 +1,4 @@
-import { CyPOM } from 'cy-utilities';
+import { CyPOM } from 'cy-utilities'
 
 export const SitePOM = CyPOM.create({
   NAVIGATE: 'ul.navbar-nav > li.nav-item:nth-child(1) > a.nav-link',
@@ -10,5 +10,5 @@ export const SitePOM = CyPOM.create({
   ITEM_3:
     'div#tbodyid > div:nth-child(3) > .card > .card-block > .card-title > .hrefch',
   NEXT_ITEMS: 'ul.pagination > li > button#next2',
-  PREV_ITEMS: 'ul.pagination > li > button#prev2',
-});
+  PREV_ITEMS: 'ul.pagination > li > button#prev2'
+})
