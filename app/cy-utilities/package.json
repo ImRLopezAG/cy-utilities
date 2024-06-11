@@ -1,9 +1,28 @@
 {
   "name": "cy-utilities",
   "version": "0.0.1",
-  "description": "Cypress utilities",
+  "description": "a collection of utilities that can be used to help with testing using Cypress, the tool provides a lot of features out of the box, but sometimes we need to extend it to make it more powerful.",
   "types": "./lib/index.d.ts",
   "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ImRLopezAG/cy-utilities"
+  },
+  "keywords": [
+    "cypress",
+    "utilities",
+    "testing"
+  ],
+  "author": "ImRLopezAG",
+  "license": "GPL-3.0-only",
+  "homepage": "https://github.com/ImRLopezAG/cy-utilities",
+  "publishConfig": {
+    "access": "public"
+  },
+  
   "exports": {
     ".": {
       "import": "./lib/index.js",
