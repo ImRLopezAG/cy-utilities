@@ -2,6 +2,23 @@
   "name": "@repo/cy-utilities",
   "type": "module",
   "private": true,
+  "description": "a collection of utilities that can be used to help with testing using Cypress, the tool provides a lot of features out of the box, but sometimes we need to extend it to make it more powerful.",
+  "types": "./lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ImRLopezAG/cy-utilities"
+  },
+  "keywords": [
+    "cypress",
+    "utilities",
+    "testing"
+  ],
+  "author": "ImRLopezAG",
+  "license": "GPL-3.0-only",
+  "homepage": "https://github.com/ImRLopezAG/cy-utilities",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "turbo run build --filter cy-utilities",
     "open": "turbo run cy:o --filter @repo/test",
