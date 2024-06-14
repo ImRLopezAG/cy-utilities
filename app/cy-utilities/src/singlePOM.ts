@@ -5,8 +5,10 @@
  */
 export class SinglePOM<T extends Record<string, string> = {}> {
   #elements: T
-  private constructor(elements: T) {
+  #origin: string
+  private constructor(elements: T, origin: string ='') {
     this.#elements = elements
+    this.#origin = origin
   }
   /**
    * @description A static method to create a Page Object Model instance
@@ -38,6 +40,24 @@ export class SinglePOM<T extends Record<string, string> = {}> {
    * @example
    * SitePOM.getElement('LOGIN_BUTTON').click()
    */
-  getElement = (element: KeyOf<T>): Cypress.Chainable<JQuery<HTMLElement>> =>
-    cy.get(this.#elements[element])
+  getElement = (element: KeyOf<T>): Cypress.Chainable<JQuery<HTMLElement>> => {
+    if (!(element in this.#elements)) {
+      throw new Error(`The element ${element.toLocaleString()} does not exist`)
+    }
+    return cy.get(this.#elements[element])
+  }
+
+  createOriginElement = (origin:string, elements: T): SinglePOM<T> => {
+    if (!elements) {
+      throw new Error('The elements must be an object')
+    }
+    return new SinglePOM(elements, origin)
+  }
+
+  getOriginElement = (element: KeyOf<T>): Cypress.Chainable<JQuery<HTMLElement>> => {
+    if (!(element in this.#elements)) {
+      throw new Error(`The element ${element.toLocaleString()} does not exist`)
+    }
+    return cy.origin(this.#origin, () => cy.get(this.#elements[element]))
+  }
 }
