@@ -4,28 +4,23 @@
  * @returns {SinglePOM<T>} - A Page Object Model instance
  */
 export class SinglePOM<T extends Record<string, string> = {}> {
-  #elements: T
-  #origin: string
-  private constructor(elements: T, origin: string ='') {
-    this.#elements = elements
-    this.#origin = origin
-  }
+  #elements: Readonly<T>
+  #origin: Readonly<string>
   /**
-   * @description A static method to create a Page Object Model instance
-   * @param {T} elements - An object with the elements of the Page Object Model
-   * @returns {SinglePOM<T>} - A Page Object Model instance
-   * @throws {Error} - If the elements are not an object
-   * @example
-   * const SitePOM = SinglePOM.create({
-   *  LOGIN_FORM: 'form[data-testid="login-form"]',
-   *  USERNAME_INPUT: 'input[data-testid="username-input"]',
-   *  PASSWORD_INPUT: 'input[data-testid="password-input"]',
-   *  SUBMIT_BUTTON: 'button[data-testid="submit-button"]',
-   * })
-   * SitePOM.getElement('USERNAME_INPUT').type('username')
-   * SitePOM.getElement('PASSWORD_INPUT').type('password')
-   * SitePOM.getElement('SUBMIT_BUTTON').click()
-   * SitePOM.getElement('LOGIN_FORM').should('not.exist')
+   * Represents the constructor of the SinglePOM class.
+   * @param elements - The elements to be stored in the SinglePOM instance.
+   * @param origin - The origin of the SinglePOM instance.
+   */
+  private constructor(elements: T) {
+    this.#elements = elements
+    this.#origin = ''
+  }
+
+  /**
+   * Creates a new instance of SinglePOM with the provided elements.
+   * @param elements - The elements to be associated with the SinglePOM instance.
+   * @returns A new instance of SinglePOM.
+   * @throws {Error} If the elements parameter is not an object.
    */
   static create<T extends Record<string, string>>(elements: T): SinglePOM<T> {
     if (!elements) {
@@ -33,31 +28,62 @@ export class SinglePOM<T extends Record<string, string> = {}> {
     }
     return new SinglePOM(elements)
   }
+
   /**
-   * @description A method to get an element from the Page Object Model
-   * @param {KeyOf<T>} element - The key of the element to get
-   * @returns {Cypress.Chainable<JQuery<HTMLElement>>} - The element
-   * @example
-   * SitePOM.getElement('LOGIN_BUTTON').click()
+   * Retrieves the Cypress.Chainable<JQuery<HTMLElement>> for the specified element.
+   * @param element - The key representing the element to retrieve.
+   * @returns The Cypress.Chainable<JQuery<HTMLElement>> for the specified element.
+   * @throws Error if the specified element does not exist.
    */
-  getElement = (element: KeyOf<T>): Cypress.Chainable<JQuery<HTMLElement>> => {
+  get = <K extends KeyOf<T>>(
+    element: K
+  ): Cypress.Chainable<JQuery<HTMLElement>> => {
     if (!(element in this.#elements)) {
       throw new Error(`The element ${element.toLocaleString()} does not exist`)
     }
     return cy.get(this.#elements[element])
   }
 
-  createOriginElement = (origin:string, elements: T): SinglePOM<T> => {
-    if (!elements) {
-      throw new Error('The elements must be an object')
+  /**
+   * Sets the origin of the SinglePOM instance.
+   * @param origin - The origin to be set.
+   * @returns The SinglePOM instance with the origin set.
+   * @throws {Error} If the origin is not a string.
+   * @returns The updated SinglePOM instance.
+   */
+  withOrigin = (origin: string): SinglePOM<T> => {
+    if (!origin) {
+      throw new Error('The origin must be a string')
     }
-    return new SinglePOM(elements, origin)
+    if (this.#origin) return this
+
+    this.#origin = origin
+    return this
   }
 
-  getOriginElement = (element: KeyOf<T>): Cypress.Chainable<JQuery<HTMLElement>> => {
+  /**
+   * Retrieves the origin element associated with the given key.
+   *
+   * @template T - The type of the elements object.
+   * @param {KeyOf<T>} element - The key of the element to retrieve.
+   * @returns {Cypress.Chainable<JQuery<HTMLElement>>} - The Cypress.Chainable object representing the origin element.
+   * @throws {Error} - If the element does not exist or if the origin is not set.
+   */
+  getOriginElement = (
+    element: KeyOf<T>
+  ): Cypress.Chainable<JQuery<HTMLElement>> => {
     if (!(element in this.#elements)) {
       throw new Error(`The element ${element.toLocaleString()} does not exist`)
     }
+    if (!this.#origin) {
+      throw new Error('The origin must be set')
+    }
     return cy.origin(this.#origin, () => cy.get(this.#elements[element]))
   }
+
+  /**
+   * Retrieves the elements stored in the class instance.
+   * @returns {T} The elements stored in the class instance.
+   */
+  getElements = (): T => this.#elements
 }

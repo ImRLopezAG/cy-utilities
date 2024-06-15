@@ -49,15 +49,14 @@ export const SiteMultiPOM = MultiPOM.create({
   CART: {
     ITEMS: 'div#tbodyid > div',
     PLACE_ORDER: 'button#place-order',
-    SUBTOTAL: 'span#subtotal' 
+    SUBTOTAL: 'span#subtotal'
   },
   HOME: {
     ITEMS: 'div#tbodyid > div',
     ITEM_1: 'div#tbodyid > div:nth-child(1)',
-    ITEM_2: 'div#tbodyid > div:nth-child(2)',
+    ITEM_2: 'div#tbodyid > div:nth-child(2)'
   }
 })
-
 ```
 
 ```javascript
@@ -67,23 +66,23 @@ import { SitePOM, SiteMultiPOM } from '../support/(your-file or your-folder)/*.j
 describe('Test', () => {
   it('should do something', () => {
     cy.visit('https://example.com');
-    SitePOM.getElement('ITEMS').should('have.length', 3);
-    SitePOM.getElement('ITEM_1').should('have.text', 'Item 1');
-    SitePOM.getElement('ITEM_2').should('have.text', 'Item 2');
-    SitePOM.getElement('ITEM_3').should('have.text', 'Item 3');
-    SitePOM.getElement('NEXT_ITEMS').click();
-    SitePOM.getElement('PREV_ITEMS').click();
+    SitePOM.get('ITEMS').should('have.length', 3);
+    SitePOM.get('ITEM_1').should('have.text', 'Item 1');
+    SitePOM.get('ITEM_2').should('have.text', 'Item 2');
+    SitePOM.get('ITEM_3').should('have.text', 'Item 3');
+    SitePOM.get('NEXT_ITEMS').click();
+    SitePOM.get('PREV_ITEMS').click();
   });
   it('should do something with the command', () => {
     cy.visit('https://example.com');
     // it will wait for each command to finish before executing the next one the quantity of milliseconds is the second parameter
     cy.awaitableCluster([
-      () => SitePOM.getElement('ITEMS').should('have.length', 3);
-      () => SitePOM.getElement('ITEM_1').should('have.text', 'Item 1');
-      () => SitePOM.getElement('ITEM_2').should('have.text', 'Item 2');
-      () => SitePOM.getElement('ITEM_3').should('have.text', 'Item 3');
-      () => SitePOM.getElement('NEXT_ITEMS').click();
-      () => SitePOM.getElement('PREV_ITEMS').click();
+      () => SitePOM.get('ITEMS').should('have.length', 3);
+      () => SitePOM.get('ITEM_1').should('have.text', 'Item 1');
+      () => SitePOM.get('ITEM_2').should('have.text', 'Item 2');
+      () => SitePOM.get('ITEM_3').should('have.text', 'Item 3');
+      () => SitePOM.get('NEXT_ITEMS').click();
+      () => SitePOM.get('PREV_ITEMS').click();
     ], 200)
   });
   it('should do something with the multi command', () => {
@@ -111,12 +110,12 @@ describe('Test', () => {
     cy.visit('https://example.com');
     // it will wait for each command to finish before executing the next one the quantity of milliseconds is the second parameter
     cy.awaitableCluster([
-      () => SitePOM.getElement('ITEMS').should('have.length', 3);
-      () => SitePOM.getElement('ITEM_1').should('have.text', 'Item 1');
-      () => SitePOM.getElement('ITEM_2').should('have.text', 'Item 2');
-      () => SitePOM.getElement('ITEM_3').should('have.text', 'Item 3');
-      () => SitePOM.getElement('NEXT_ITEMS').click();
-      () => SitePOM.getElement('PREV_ITEMS').click();
+      () => SitePOM.get('ITEMS').should('have.length', 3);
+      () => SitePOM.get('ITEM_1').should('have.text', 'Item 1');
+      () => SitePOM.get('ITEM_2').should('have.text', 'Item 2');
+      () => SitePOM.get('ITEM_3').should('have.text', 'Item 3');
+      () => SitePOM.get('NEXT_ITEMS').click();
+      () => SitePOM.get('PREV_ITEMS').click();
     ], 200)
   });
 });

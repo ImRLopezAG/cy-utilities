@@ -6,39 +6,35 @@ describe('template spec', () => {
   it('Should work with Single POM', () => {
     cy.awaitableCluster(
       [
-        () => SitePOM.getElement('ITEMS').should('have.length', 9),
-        () => SitePOM.getElement('NEXT_ITEMS').click(),
-        () => SitePOM.getElement('ITEMS').should('have.length', 6),
-        () => SitePOM.getElement('PREV_ITEMS').click()
+        () => SitePOM.get('ITEMS').should('have.length', 9),
+        () => SitePOM.get('NEXT_ITEMS').click(),
+        () => SitePOM.get('ITEMS').should('have.length', 6),
+        () => SitePOM.get('PREV_ITEMS').click()
       ],
       200
     )
   })
   it('Should work with Nested POM', () => {
     cy.visit('https://demoblaze.com/cart.html')
-    cy.awaitableCluster(
-      [
-        () => SiteMultiPOM.getElement('CART', 'PLACE_ORDER').click(),
-        () =>
-          SiteMultiPOM.getElement('CART', 'MODAL_ORDER')
-            .should('have.class', 'show')
-            .should('have.css', 'display', 'block'),
-  
-        () => SiteMultiPOM.getElement('CART', 'NAME').type('John Doe'),
-        () => SiteMultiPOM.getElement('CART', 'COUNTRY').type('United States'),
-        () => SiteMultiPOM.getElement('CART', 'CITY').type('New York'),
-        () =>
-          SiteMultiPOM.getElement('CART', 'CREDIT_CARD').type(
-            '1234567890123456'
-          ),
-        () => SiteMultiPOM.getElement('CART', 'MONTH').type('12'),
-        () => SiteMultiPOM.getElement('CART', 'YEAR').type('2023'),
-        () => SiteMultiPOM.getElement('CART', 'PURCHASE').click(),
-        () =>
-          SiteMultiPOM.getElement('CART', 'SWEET_ALERT')
-            .should('have.class', 'visible')
-            .should('have.css', 'display', 'block'),
-        () => SiteMultiPOM.getElement('CART', 'SWEET_BUTTON').click()
-      ])
+    cy.awaitableCluster([
+      () => SiteMultiPOM.get('CART', 'PLACE_ORDER').click(),
+      () =>
+        SiteMultiPOM.get('CART', 'MODAL_ORDER')
+          .should('have.class', 'show')
+          .should('have.css', 'display', 'block'),
+
+      () => SiteMultiPOM.get('CART', 'NAME').type('John Doe'),
+      () => SiteMultiPOM.get('CART', 'COUNTRY').type('United States'),
+      () => SiteMultiPOM.get('CART', 'CITY').type('New York'),
+      () => SiteMultiPOM.get('CART', 'CREDIT_CARD').type('1234567890123456'),
+      () => SiteMultiPOM.get('CART', 'MONTH').type('12'),
+      () => SiteMultiPOM.get('CART', 'YEAR').type('2023'),
+      () => SiteMultiPOM.get('CART', 'PURCHASE').click(),
+      () =>
+        SiteMultiPOM.get('CART', 'SWEET_ALERT')
+          .should('have.class', 'visible')
+          .should('have.css', 'display', 'block'),
+      () => SiteMultiPOM.get('CART', 'SWEET_BUTTON').click()
+    ])
   })
 })
