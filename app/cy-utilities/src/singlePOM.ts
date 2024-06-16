@@ -45,43 +45,6 @@ export class SinglePOM<T extends Record<string, string> = {}> {
   }
 
   /**
-   * Sets the origin of the SinglePOM instance.
-   * @param origin - The origin to be set.
-   * @returns The SinglePOM instance with the origin set.
-   * @throws {Error} If the origin is not a string.
-   * @returns The updated SinglePOM instance.
-   */
-  withOrigin = (origin: string): SinglePOM<T> => {
-    if (!origin) {
-      throw new Error('The origin must be a string')
-    }
-    if (this.#origin) return this
-
-    this.#origin = origin
-    return this
-  }
-
-  /**
-   * Retrieves the origin element associated with the given key.
-   *
-   * @template T - The type of the elements object.
-   * @param {KeyOf<T>} element - The key of the element to retrieve.
-   * @returns {Cypress.Chainable<JQuery<HTMLElement>>} - The Cypress.Chainable object representing the origin element.
-   * @throws {Error} - If the element does not exist or if the origin is not set.
-   */
-  getOriginElement = (
-    element: KeyOf<T>
-  ): Cypress.Chainable<JQuery<HTMLElement>> => {
-    if (!(element in this.#elements)) {
-      throw new Error(`The element ${element.toLocaleString()} does not exist`)
-    }
-    if (!this.#origin) {
-      throw new Error('The origin must be set')
-    }
-    return cy.origin(this.#origin, () => cy.get(this.#elements[element]))
-  }
-
-  /**
    * Retrieves the elements stored in the class instance.
    * @returns {T} The elements stored in the class instance.
    */

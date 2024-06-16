@@ -43,5 +43,3 @@ export const SiteMultiPOM = MultiPOM.create({
     PREV_ITEMS: 'ul.pagination > li > button#prev2'
   }
 })
-
-export const SiteOriginPOM = SitePOM.withOrigin('http://localhost:3000')

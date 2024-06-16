@@ -14,8 +14,7 @@ Cypress.Commands.addAll({
       chain = chain.then(() => steps()).then(() => cy.wait(wait)) && chain
     })
     return chain
-  }, 
-  
+  }
 })
 
 declare global {
