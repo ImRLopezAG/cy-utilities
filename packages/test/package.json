@@ -9,7 +9,7 @@
     "test": "cypress run"
   },
   "devDependencies": {
-    "cypress": "^13.11.0",
+    "cypress": "^14.5.4",
     "@repo/ts-config": "workspace:*",
     "cy-utilities": "workspace:*"
   },

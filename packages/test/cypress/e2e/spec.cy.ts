@@ -1,4 +1,5 @@
 import { SiteMultiPOM, SitePOM } from '../support/commands'
+
 describe('template spec', () => {
   beforeEach(() => {
     cy.visit('https://demoblaze.com')
