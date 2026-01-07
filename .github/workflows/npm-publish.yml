@@ -21,19 +21,17 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org/
 
-      - name: setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9
+      - name: setup bun
+        uses: oven-sh/setup-bun@v1
 
       - name: install dependencies
-        run: pnpm install --no-link-workspace-packages --no-frozen-lockfile
+        run: bun install
 
       - name: build
-        run: pnpm build
+        run: bun run build
 
       - name: testing
-        run: pnpm test
+        run: bun run test
   publish:
     needs: [test]
     runs-on: ubuntu-latest
@@ -63,19 +61,17 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org/
 
-      - name: setup pnpm
+      - name: setup bun
         if: ${{ env.skip == 'false' }}
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9
+        uses: oven-sh/setup-bun@v1
 
       - name: install dependencies
         if: ${{ env.skip == 'false' }}
-        run: pnpm install --no-link-workspace-packages --no-frozen-lockfile
+        run: bun install
 
       - name: build
         if: ${{ env.skip == 'false' }}
-        run: pnpm build
+        run: bun run build
 
       - name: registry
         if: ${{ env.skip == 'false' }}
